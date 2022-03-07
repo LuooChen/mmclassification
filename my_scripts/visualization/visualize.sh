@@ -1,1 +1,1 @@
-python ./tools/visualizations/vis_pipeline.py configs/vgg/my_visualization_vgg16_8xb16_voc_1.py --phase train --output-dir data/temp --number 10
+python ./tools/visualizations/vis_pipeline.py configs/vgg/my_vgg16_b16_upper_colors_1.py --phase train --output-dir data/temp --number 10

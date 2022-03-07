@@ -4,8 +4,8 @@ import os
 
 from mmcls.apis import infer_upper, inference_multi_label_model, init_model, show_result_pyplot
 
-config = "work_dirs/my_vgg16_8xb16_voc_1/my_vgg16_8xb16_voc_1.py"
-checkpoint = "work_dirs/my_vgg16_8xb16_voc_1/epoch_40.pth"
+config = "work_dirs/my_vgg16_b16_upper_1/my_vgg16_b16_upper_1.py"
+checkpoint = "work_dirs/my_vgg16_b16_upper_1/epoch_40.pth"
 # device = "cpu"
 device = "cuda:0"
 
