@@ -5,6 +5,7 @@ import os
 import re
 import sys
 from pathlib import Path
+from typing import List
 
 import mmcv
 import numpy as np
@@ -210,6 +211,17 @@ def get_display_img(item, pipeline, mode, bgr2rgb):
         image = trans_image
     return image
 
+def get_cat_ids(gt_labels: List[int]) -> List[int]:
+    """Get category ids by index.
+
+    Args:
+        idx (int): Index of data.
+
+    Returns:
+        cat_ids (List[int]): Image categories of specified index.
+    """
+    cat_ids = np.where(gt_labels == 1)[0].tolist()
+    return cat_ids
 
 def main():
     args = parse_args()
@@ -236,8 +248,13 @@ def main():
                 # some datasets do not have filename, such as cifar, use id
                 src_path = item.get('filename', '{}.jpg'.format(i))
                 dist_path = os.path.join(args.output_dir, Path(src_path).name)
-
-            infos = dict(label=CLASSES[item['gt_label']])
+            if type(item['gt_label']) == int:
+                infos = dict(label=CLASSES[item['gt_label']])
+            else:
+                # multi-label task
+                cat_ids = get_cat_ids(item['gt_label'])
+                labels = [CLASSES[i]for i in cat_ids]
+                infos = dict(label=','.join(labels))
 
             ret, _ = manager.put_img_infos(
                 image,
