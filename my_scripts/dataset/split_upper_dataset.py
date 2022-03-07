@@ -1,5 +1,4 @@
 import csv
-import random
 import numpy as np
 import math
 
@@ -75,6 +74,18 @@ def split_samples(group_samples):
                 val_dataset = val_dataset + samples[num_of_train:]
     return [train_dataset, val_dataset]
 
+def split_intersection_of_list(a, b):
+    intersection = list(set(a).intersection(set(b)))
+    # remove intersection
+    a = list(set(a) - set(intersection))
+    b = list(set(b) - set(intersection))
+    # split intersection elements to both list
+    if len(intersection) > 0:
+        half_len = (int)(len(intersection) / 2)
+        a = a + intersection[:half_len]
+        b = b + intersection[half_len:]
+    return [a, b]
+
 def split_NoSleeve_Bald_dataset():
     train_ds = []
     val_ds = []
@@ -87,7 +98,7 @@ def split_NoSleeve_Bald_dataset():
     np.random.shuffle(Bald_dataset)
     val_ds = val_ds + Bald_dataset[:num_of_val]
     train_ds = train_ds + Bald_dataset[num_of_val:]
-    return [list(set(train_ds)), list(set(val_ds))]
+    return split_intersection_of_list(train_ds, val_ds)
 
 def generate_csv_file(dataset, filepath):
     with open(filepath, 'w', newline='') as csvfile:
