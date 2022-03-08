@@ -2,9 +2,9 @@ import csv
 import numpy as np
 import math
 
-upper_labels_filepath = 'data/train1A_relabeled.csv'
-train_dataset_filepath = 'data/upper_train.csv'
-val_dataset_filepath = 'data/upper_val.csv'
+upper_labels_filepath = 'data/labels/train1A_relabeled.csv'
+train_dataset_filepath = 'data/labels/upper_train.csv'
+val_dataset_filepath = 'data/labels/upper_val.csv'
 
 # train 0.9 val 0.1
 split_ratio = 0.9
@@ -25,6 +25,7 @@ Bald_dataset = []
 with open(upper_labels_filepath) as f:
     reader = csv.DictReader(f)
     upper_labels_header = reader.fieldnames
+    print('upper_labels_header: ', upper_labels_header)
     for (index, row) in enumerate(reader):
         upper_labels_data_info.append(row)
         if row['upperLength'] == 'NoSleeve':

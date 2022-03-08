@@ -1,1 +1,1 @@
-python tools/train.py configs/vgg/my_vgg16_8xb16_voc_1.py --work-dir work_dirs/my_vgg16_8xb16_voc_1
+python tools/train.py configs/vgg/my_vgg16_b16_upper_colors_1.py --work-dir work_dirs/my_vgg16_b16_upper_colors_1

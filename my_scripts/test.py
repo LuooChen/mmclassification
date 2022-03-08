@@ -2,11 +2,9 @@ import csv
 import numpy as np
 import math
 import operator
+from val_ds_analyze import get_val_ds
 
-CLASSES = ('upperBlack',
-            'upperBrown', 'upperBlue', 'upperGreen', 'upperGray', 'upperOrange',
-            'upperPink', 'upperPurple', 'upperRed', 'upperWhite', 'upperYellow')
-print(list(CLASSES))
+print(get_val_ds())
 
 
 

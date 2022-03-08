@@ -7,10 +7,29 @@ clothesStyles_classes = ['Solidcolor', 'multicolour', 'lattice']
 # 'hairStyles'
 hairStyles_classes = ['Long', 'middle', 'Short', 'Bald']
 
+# clothesStyles
+clothesStyles_Solidcolor = 'Solidcolor'
+clothesStyles_multicolour = 'multicolour'
+clothesStyles_lattice = 'lattice'
+
+# score_threshold
+score_threshold = 0.3
+
 def get_max_item_of_list(list) -> dict:
     return max(list, key=lambda item: item['pred_scores'])
 
-def infer_upper(model, img):
+def sorted_by_pred_scores(list):
+    list.sort(key=lambda x: x['pred_scores'], reverse=True)
+    
+def get_colors_result_for_top2_or_top3(colors_result) -> list:
+    if colors_result[2]['pred_scores'] > score_threshold:
+        # three colors
+        return colors_result
+    else:
+        # two colors
+        return colors_result[:2]
+
+def infer_upper(model, img) -> dict:
     pred_result = inference_multi_label_model(model, img)
     pred_upperLength = pred_result[:3]
     pred_clothesStyles = pred_result[3:6]
@@ -20,3 +39,22 @@ def infer_upper(model, img):
         'clothesStyles': get_max_item_of_list(pred_clothesStyles),
         'hairStyles': get_max_item_of_list(pred_hairStyles)
     }
+
+def infer_upper_colors_top3(model, img) -> list:
+    pred_result = inference_multi_label_model(model, img)
+    sorted_by_pred_scores(pred_result)
+    return pred_result[:3]
+
+def calculate_upper_colors_result(clothesStyles, upper_colors_result) -> list:
+    if clothesStyles == clothesStyles_Solidcolor:
+        return [get_max_item_of_list(upper_colors_result)]
+    else:
+        # multicolour or lattice
+        return get_colors_result_for_top2_or_top3(upper_colors_result)
+
+def infer_upper_info(model_upper, model_upper_colors, img):
+    upper_result = infer_upper(model_upper, img)
+    upper_colors_result = infer_upper_colors_top3(model_upper_colors, img)
+    upper_colors_result = calculate_upper_colors_result(upper_result['clothesStyles']['pred_class'], upper_colors_result)
+    upper_result['upper_colors'] = upper_colors_result
+    return upper_result

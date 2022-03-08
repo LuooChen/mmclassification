@@ -32,8 +32,8 @@ test_pipeline = [
 ]
 
 data_prefix = 'data/train1A'
-ann_file_train = 'data/upper_colors_train.csv'
-ann_file_val = 'data/upper_colors_val.csv'
+ann_file_train = 'data/labels/upper_colors_train.csv'
+ann_file_val = 'data/labels/upper_colors_val.csv'
 data = dict(
     samples_per_gpu=16,
     workers_per_gpu=2,
