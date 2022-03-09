@@ -25,8 +25,6 @@ train_pipeline = [
 ]
 test_pipeline = [
     dict(type='LoadImageFromFile'),
-    # dict(type='Resize', size=(256, -1)),
-    # dict(type='CenterCrop', crop_size=224),
     dict(type='Resize', size=(224, -1), adaptive_side='long'),
     dict(type='Pad', pad_to_square=True, pad_val=(128,128,128)),
     dict(type='Normalize', **img_norm_cfg),
@@ -38,7 +36,7 @@ data_prefix = 'data/train1A'
 ann_file_train = 'data/labels/upper_train.csv'
 ann_file_val = 'data/labels/upper_val.csv'
 data = dict(
-    samples_per_gpu=16,
+    samples_per_gpu=16*2,
     workers_per_gpu=2,
     train=dict(
         type=dataset_type,

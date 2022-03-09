@@ -9,7 +9,7 @@ import numpy as np
 from mmcls.utils import load_json_log
 
 TEST_METRICS = ('precision', 'recall', 'f1_score', 'support', 'mAP', 'CP',
-                'CR', 'CF1', 'OP', 'OR', 'OF1', 'accuracy')
+                'CR', 'CF1', 'OP', 'OR', 'OF1', 'MF1', 'accuracy')
 
 
 def cal_train_time(log_dicts, args):

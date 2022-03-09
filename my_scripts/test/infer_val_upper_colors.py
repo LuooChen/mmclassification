@@ -4,11 +4,11 @@ import os
 import json
 import numpy as np
 
-lattice_json_path = 'data/json/lattice_val_infer_result.json'
-multicolour_json_path = 'data/json/multicolour_val_infer_result.json'
+lattice_json_path = 'data/json/upper_colors_2_lattice_result_e25.json'
+multicolour_json_path = 'data/json/upper_colors_2_multicolour_result_e25.json'
 
-config = "work_dirs/my_vgg16_b16_upper_colors_1/my_vgg16_b16_upper_colors_1.py"
-checkpoint = "work_dirs/my_vgg16_b16_upper_colors_1/epoch_40.pth"
+config = "work_dirs/my_vgg16_b16_upper_colors_2/my_vgg16_b16_upper_colors_2.py"
+checkpoint = "work_dirs/my_vgg16_b16_upper_colors_2/epoch_25.pth"
 # device = "cpu"
 device = "cuda:0"
 data_root = 'data/train1A/'
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     lattice_ds, multicolour_ds = get_val_ds()
     lattice_infer_result_json = infer_ds(lattice_ds)
     multicolour_infer_result_json = infer_ds(multicolour_ds)
-    print(lattice_infer_result_json)
+    # print(lattice_infer_result_json)
     with open(lattice_json_path, "w") as f:
         json.dump(lattice_infer_result_json, f)
         

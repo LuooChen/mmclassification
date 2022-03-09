@@ -25,8 +25,6 @@ train_pipeline = [
 ]
 test_pipeline = [
     dict(type='LoadImageFromFile'),
-    # dict(type='Resize', size=(256, -1)),
-    # dict(type='CenterCrop', crop_size=224),
     dict(type='Resize', size=(224, -1), adaptive_side='long'),
     dict(type='Pad', pad_to_square=True, pad_val=(128,128,128)),
     dict(type='Normalize', **img_norm_cfg),
@@ -69,5 +67,5 @@ optimizer = dict(
     paramwise_cfg=dict(custom_keys={'.backbone.classifier': dict(lr_mult=10)}))
 optimizer_config = dict(grad_clip=None)
 # learning policy
-lr_config = dict(policy='step', step=20, gamma=0.1)
-runner = dict(type='EpochBasedRunner', max_epochs=40)
+lr_config = dict(policy='step', step=[20,40,60], gamma=0.1)
+runner = dict(type='EpochBasedRunner', max_epochs=80)

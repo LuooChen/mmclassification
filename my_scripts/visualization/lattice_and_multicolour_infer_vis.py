@@ -1,7 +1,7 @@
 import json
 
-lattice_json_path = 'data/json/lattice_val_infer_result.json'
-multicolour_json_path = 'data/json/multicolour_val_infer_result.json'
+lattice_json_path = 'data/json/upper_colors_2_lattice_result_e40.json'
+multicolour_json_path = 'data/json/upper_colors_2_multicolour_result_e40.json'
 
 lattice_json = None
 multicolour_json = None
@@ -55,14 +55,14 @@ def cal_accuracy(tp, fp, tn, fn):
 def get_positive_negative_two_info():
     # two positive, three negative
     lattice_tp, lattice_fp, lattice_tn, lattice_fn = get_positive_negative_count(lattice_json)
-    print([lattice_tp, lattice_fp, lattice_tn, lattice_fn])
-    print('lattice two count: ', len(lattice_json['two']))
-    print('lattice three count: ', len(lattice_json['three']))
+    # print([lattice_tp, lattice_fp, lattice_tn, lattice_fn])
+    # print('lattice two count: ', len(lattice_json['two']))
+    # print('lattice three count: ', len(lattice_json['three']))
     
     multicolour_tp, multicolour_fp, multicolour_tn, multicolour_fn = get_positive_negative_count(multicolour_json)
-    print([multicolour_tp, multicolour_fp, multicolour_tn, multicolour_fn])
-    print('multicolour two count: ', len(multicolour_json['two']))
-    print('multicolour three count: ', len(multicolour_json['three']))
+    # print([multicolour_tp, multicolour_fp, multicolour_tn, multicolour_fn])
+    # print('multicolour two count: ', len(multicolour_json['two']))
+    # print('multicolour three count: ', len(multicolour_json['three']))
     
     total_tp = lattice_tp + multicolour_tp
     total_fp = lattice_fp + multicolour_fp
@@ -73,7 +73,6 @@ def get_positive_negative_two_info():
 def cal_two_info():
     # two positive, three negative
     total_tp, total_fp, total_tn, total_fn = get_positive_negative_two_info()
-    print([total_tp, total_fp, total_tn, total_fn])
     precision = cal_precision(total_tp, total_fp)
     recall = cal_recall(total_tp, total_fn)
     f1_score = cal_f1(precision, recall)
@@ -87,7 +86,6 @@ def cal_two_info():
 def cal_three_info():
     # two negative, three positive
     total_tn, total_fn, total_tp, total_fp = get_positive_negative_two_info()
-    print([total_tp, total_fp, total_tn, total_fn])
     precision = cal_precision(total_tp, total_fp)
     recall = cal_recall(total_tp, total_fn)
     f1_score = cal_f1(precision, recall)
@@ -116,5 +114,6 @@ if __name__ == '__main__':
             best_threshold = score_threshold
         print('score_threshold: ', score_threshold)
         print('weight_f1: ', weight_f1)
+        print()
     print('best_threshold: ', best_threshold)
     print('best_f1: ', best_f1)

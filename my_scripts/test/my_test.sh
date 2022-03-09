@@ -1,0 +1,1 @@
+python tools/test.py configs/vgg/my_vgg16_b16_upper_colors_1.py work_dirs/my_vgg16_b16_upper_colors_1/epoch_40.pth --metrics mAP CP CR CF1 MF1 OP OR OF1 --out work_dirs/my_vgg16_b16_upper_colors_1/val_result_40.json --metric-options 'thr'=0.4

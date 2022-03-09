@@ -53,7 +53,7 @@ data = dict(
         ann_file=ann_file_val,
         pipeline=test_pipeline))
 evaluation = dict(
-    interval=1, metric=['mAP', 'CP', 'OP', 'CR', 'OR', 'CF1', 'OF1'])
+    interval=1, metric=['mAP', 'CP', 'OP', 'CR', 'OR', 'CF1', 'MF1', 'OF1'])
 
 # load model pretrained on imagenet
 load_from = 'checkpoints/vgg16_batch256_imagenet_20210208-db26f1a5.pth'

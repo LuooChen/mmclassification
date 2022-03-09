@@ -40,7 +40,7 @@ def parse_args():
         nargs='+',
         help='evaluation metrics, which depends on the dataset, e.g., '
         '"accuracy", "precision", "recall", "f1_score", "support" for single '
-        'label dataset, and "mAP", "CP", "CR", "CF1", "OP", "OR", "OF1" for '
+        'label dataset, and "mAP", "CP", "CR", "CF1", "OP", "OR", "OF1", "MF1" for '
         'multi-label dataset')
     parser.add_argument('--show', action='store_true', help='show results')
     parser.add_argument(
@@ -187,6 +187,7 @@ def main():
     if rank == 0:
         results = {}
         logger = get_root_logger()
+        print('args.metric_options: ', args.metric_options)
         if args.metrics:
             eval_results = dataset.evaluate(
                 results=outputs,

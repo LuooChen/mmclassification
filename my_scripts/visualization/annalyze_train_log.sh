@@ -1,0 +1,1 @@
+python tools/analysis_tools/analyze_logs.py plot_curve work_dirs/my_vgg16_b16*2_upper_3/20220308_182112.log.json --out work_dirs/my_vgg16_b16*2_upper_3/train_log.jpg --keys loss --legend loss

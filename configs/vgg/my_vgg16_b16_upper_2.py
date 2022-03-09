@@ -25,8 +25,6 @@ train_pipeline = [
 ]
 test_pipeline = [
     dict(type='LoadImageFromFile'),
-    # dict(type='Resize', size=(256, -1)),
-    # dict(type='CenterCrop', crop_size=224),
     dict(type='Resize', size=(224, -1), adaptive_side='long'),
     dict(type='Pad', pad_to_square=True, pad_val=(128,128,128)),
     dict(type='Normalize', **img_norm_cfg),
