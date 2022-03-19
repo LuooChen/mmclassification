@@ -7,7 +7,7 @@ model = dict(
     neck=None,
     head=dict(
         type='MultiLabelClsHead',
-        loss=dict(type='CrossEntropyLoss', use_sigmoid=True, loss_weight=1.0)))
+        loss=dict(type='MultilabelCatCrossLoss', loss_weight=1.0)))
 
 # dataset settings
 dataset_type = 'PedestrianUpper'
@@ -16,7 +16,7 @@ img_norm_cfg = dict(
 train_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(type='Resize', size=(224, -1), adaptive_side='long'),
-    dict(type='RandomFlip', flip_prob=1.0, direction='horizontal'),
+    dict(type='RandomFlip', flip_prob=0.5, direction='horizontal'),
     dict(type='Pad', pad_to_square=True, pad_val=(128,128,128)),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='ImageToTensor', keys=['img']),
@@ -25,8 +25,6 @@ train_pipeline = [
 ]
 test_pipeline = [
     dict(type='LoadImageFromFile'),
-    # dict(type='Resize', size=(256, -1)),
-    # dict(type='CenterCrop', crop_size=224),
     dict(type='Resize', size=(224, -1), adaptive_side='long'),
     dict(type='Pad', pad_to_square=True, pad_val=(128,128,128)),
     dict(type='Normalize', **img_norm_cfg),
