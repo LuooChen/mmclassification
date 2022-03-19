@@ -65,7 +65,7 @@ def get_upper_colors_result_by_thr(upper_colors_result) -> list:
 def infer_upper_info(model_upper, model_upper_colors, img):
     upper_result = infer_upper(model_upper, img)
     upper_colors_result = infer_upper_colors_top3(model_upper_colors, img)
-    # upper_colors_result = get_upper_colors_result_by_clothesStyles(upper_result['clothesStyles']['pred_class'], upper_colors_result)
-    upper_colors_result = get_upper_colors_result_by_thr(upper_colors_result)
+    upper_colors_result = get_upper_colors_result_by_clothesStyles(upper_result['clothesStyles']['pred_class'], upper_colors_result)
+    # upper_colors_result = get_upper_colors_result_by_thr(upper_colors_result)
     upper_result['upper_colors'] = upper_colors_result
     return upper_result

@@ -4,6 +4,22 @@ import warnings
 import numpy as np
 import torch
 
+upper_classes = ['LongSleeve', 'ShortSleeve', 'NoSleeve',
+                 'Solidcolor', 'multicolour', 'lattice',
+                 'Long', 'middle', 'Short', 'Bald']
+
+upper_colors_classes = ['upperBlack',
+                        'upperBrown', 'upperBlue', 'upperGreen', 'upperGray', 'upperOrange',
+                        'upperPink', 'upperPurple', 'upperRed', 'upperWhite', 'upperYellow']
+
+def nd_format(pred_class, classes, format_string ='{0:.3f}'):
+    pred_class = [format_string.format(v,i) for i,v in enumerate(pred_class)]
+    result = []
+    for (index,cur) in enumerate(classes):
+        result.append({
+            cur: pred_class[index]
+        })
+    return result
 
 def upper_average_performance(pred, target, thr=None, k=None):
     """Calculate CP, CR, CF1, OP, OR, OF1, MF1, where C stands for per-class
@@ -61,8 +77,11 @@ def upper_average_performance(pred, target, thr=None, k=None):
         tp.sum(axis=0) + fp.sum(axis=0), eps)
     recall_class = tp.sum(axis=0) / np.maximum(
         tp.sum(axis=0) + fn.sum(axis=0), eps)
+    print('precision_class: ', nd_format(precision_class, upper_classes))
+    print('recall_class: ', nd_format(recall_class, upper_classes))
     # calculate MacroF1
     f1_class = 2 * precision_class * recall_class / np.maximum(precision_class + recall_class, eps)
+    print('f1_class: ', nd_format(f1_class, upper_classes))
     MF1 = f1_class.mean() * 100.0
     CP = precision_class.mean() * 100.0
     CR = recall_class.mean() * 100.0
@@ -127,8 +146,12 @@ def upper_colors_average_performance(pred, target, thr=0.5, k=3):
         tp.sum(axis=0) + fp.sum(axis=0), eps)
     recall_class = tp.sum(axis=0) / np.maximum(
         tp.sum(axis=0) + fn.sum(axis=0), eps)
+    np.set_printoptions(linewidth=400)
+    print('precision_class: ', nd_format(precision_class, upper_colors_classes))
+    print('recall_class: ', nd_format(recall_class, upper_colors_classes))
     # calculate MacroF1
     f1_class = 2 * precision_class * recall_class / np.maximum(precision_class + recall_class, eps)
+    print('f1_class: ', nd_format(f1_class, upper_colors_classes))
     MF1 = f1_class.mean() * 100.0
     CP = precision_class.mean() * 100.0
     CR = recall_class.mean() * 100.0
