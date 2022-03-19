@@ -1,1 +1,1 @@
-python tools/analysis_tools/analyze_logs.py plot_curve work_dirs/my_vgg16_b16*2_upper_3/20220308_182112.log.json --out work_dirs/my_vgg16_b16*2_upper_3/evaluate_log.jpg --keys mAP CP CR CF1 OP OR OF1 --legend mAP CP CR CF1 OP OR OF1
+python tools/analysis_tools/analyze_logs.py plot_curve work_dirs/my_vgg16_b16_upper_colors_e80_4/20220309_225707.log.json --out work_dirs/my_vgg16_b16_upper_colors_e80_4/evaluate_log.jpg --keys mAP CF1 MF1 OF1 --legend mAP CF1 MF1 OF1

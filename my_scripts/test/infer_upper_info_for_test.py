@@ -5,14 +5,15 @@ import csv
 
 from mmcls.apis import infer_upper_info, inference_multi_label_model, init_model, show_result_pyplot
 
-upper_config = "work_dirs/my_vgg16_b16_upper_2/my_vgg16_b16_upper_2.py"
-upper_checkpoint = "work_dirs/my_vgg16_b16_upper_2/epoch_40.pth"
-upper_colors_config = "work_dirs/my_vgg16_b16_upper_colors_2/my_vgg16_b16_upper_colors_2.py"
-upper_colors_checkpoint = "work_dirs/my_vgg16_b16_upper_colors_2/epoch_40.pth"
+upper_config = "work_dirs/my_vgg16_b16_upper_7/my_vgg16_b16_upper_7.py"
+upper_checkpoint = "work_dirs/my_vgg16_b16_upper_7/epoch_37.pth"
+upper_colors_config = "work_dirs/my_vgg16_b16_upper_colors_7/my_vgg16_b16_upper_colors_7.py"
+upper_colors_checkpoint = "work_dirs/my_vgg16_b16_upper_colors_7/epoch_36.pth"
 # device = "cpu"
 device = "cuda:0"
-data_root = 'data/testA'
-save_csv_path = 'data/submit/result_2_epoch40.csv'
+# data_root = 'data/testA'
+data_root = 'data/testB'
+save_csv_path = 'data/submitB/result_7_best.csv'
 # img = "img_qh_train1A_00359008148.jpg"
 submit_csv_header = ['name', 'upperLength', 'clothesStyles', 'hairStyles', 'upperBlack', 'upperBrown', 'upperBlue', 'upperGreen', 'upperGray', 'upperOrange', 'upperPink', 'upperPurple', 'upperRed', 'upperWhite', 'upperYellow']
 # init models
