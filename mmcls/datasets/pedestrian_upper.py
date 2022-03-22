@@ -10,7 +10,6 @@ from .builder import DATASETS
 from .multi_label import MultiLabelDataset
 from mmcls.core import upper_average_performance, mAP
 
-
 @DATASETS.register_module()
 class PedestrianUpper(MultiLabelDataset):
     """`Pascal VOC <http://host.robots.ox.ac.uk/pascal/VOC/>`_ Dataset."""
@@ -92,7 +91,7 @@ class PedestrianUpper(MultiLabelDataset):
             eval_results['mAP'] = mAP_value
         if len(set(metrics) - {'mAP'}) != 0:
             performance_keys = ['CP', 'CR', 'CF1', 'MF1', 'OP', 'OR', 'OF1']
-            performance_values = upper_average_performance(results, gt_labels,
+            performance_values = upper_average_performance(results, gt_labels, logger,
                                                      **metric_options)
             for k, v in zip(performance_keys, performance_values):
                 if k in metrics:

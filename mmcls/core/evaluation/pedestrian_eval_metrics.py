@@ -3,6 +3,8 @@ import warnings
 
 import numpy as np
 import torch
+from mmcv.utils import print_log
+import logging
 
 upper_classes = ['LongSleeve', 'ShortSleeve', 'NoSleeve',
                  'Solidcolor', 'multicolour', 'lattice',
@@ -19,9 +21,9 @@ def nd_format(pred_class, classes, format_string ='{0:.3f}'):
         result.append({
             cur: pred_class[index]
         })
-    return result
+    return str(result)
 
-def upper_average_performance(pred, target, thr=None, k=None):
+def upper_average_performance(pred, target, logger=None, thr=None, k=None):
     """Calculate CP, CR, CF1, OP, OR, OF1, MF1, where C stands for per-class
     average, O stands for overall average, P stands for precision, R stands for
     recall and F1 stands for F1-score, MF1 stands for MacroF1.
@@ -81,7 +83,9 @@ def upper_average_performance(pred, target, thr=None, k=None):
     print('recall_class: ', nd_format(recall_class, upper_classes))
     # calculate MacroF1
     f1_class = 2 * precision_class * recall_class / np.maximum(precision_class + recall_class, eps)
-    print('f1_class: ', nd_format(f1_class, upper_classes))
+    # print('f1_class: ', nd_format(f1_class, upper_classes))
+    print_log('f1_class: ' + nd_format(f1_class, upper_classes), logger=logger, level=logging.INFO)
+
     MF1 = f1_class.mean() * 100.0
     CP = precision_class.mean() * 100.0
     CR = recall_class.mean() * 100.0
@@ -91,7 +95,7 @@ def upper_average_performance(pred, target, thr=None, k=None):
     OF1 = 2 * OP * OR / np.maximum(OP + OR, eps)
     return CP, CR, CF1, MF1, OP, OR, OF1
 
-def upper_colors_average_performance(pred, target, thr=0.5, k=3):
+def upper_colors_average_performance(pred, target, logger=None, thr=0.5, k=3):
     """Calculate CP, CR, CF1, OP, OR, OF1, MF1, where C stands for per-class
     average, O stands for overall average, P stands for precision, R stands for
     recall and F1 stands for F1-score, MF1 stands for MacroF1.
@@ -151,7 +155,9 @@ def upper_colors_average_performance(pred, target, thr=0.5, k=3):
     print('recall_class: ', nd_format(recall_class, upper_colors_classes))
     # calculate MacroF1
     f1_class = 2 * precision_class * recall_class / np.maximum(precision_class + recall_class, eps)
-    print('f1_class: ', nd_format(f1_class, upper_colors_classes))
+    # print('f1_class: ', nd_format(f1_class, upper_colors_classes))
+    print_log('f1_class: ' + nd_format(f1_class, upper_colors_classes), logger=logger, level=logging.INFO)
+
     MF1 = f1_class.mean() * 100.0
     CP = precision_class.mean() * 100.0
     CR = recall_class.mean() * 100.0

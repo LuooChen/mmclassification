@@ -3,14 +3,14 @@ _base_ = ['../_base_/datasets/voc_bs16.py', '../_base_/default_runtime.py']
 # use different head for multilabel task
 model = dict(
     type='ImageClassifier',
-    backbone=dict(type='VGG', depth=16, num_classes=11),
+    backbone=dict(type='VGG', depth=16, num_classes=10),
     neck=None,
     head=dict(
         type='MultiLabelClsHead',
-        loss=dict(type='MultilabelCatCrossLoss', loss_weight=1.0)))
+        loss=dict(type='CrossEntropyLoss', use_sigmoid=True, loss_weight=1.0)))
 
 # dataset settings
-dataset_type = 'PedestrianUpperColors'
+dataset_type = 'PedestrianUpper'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 train_pipeline = [
@@ -32,9 +32,9 @@ test_pipeline = [
     dict(type='Collect', keys=['img'])
 ]
 
-data_prefix = 'data/train1A'
-ann_file_train = 'data/labels/upper_colors_train.csv'
-ann_file_val = 'data/labels/upper_colors_val.csv'
+data_prefix = 'data/all_train_imgs'
+ann_file_train = 'data/labels/upper_train.csv'
+ann_file_val = 'data/labels/upper_val.csv'
 data = dict(
     samples_per_gpu=16,
     workers_per_gpu=2,

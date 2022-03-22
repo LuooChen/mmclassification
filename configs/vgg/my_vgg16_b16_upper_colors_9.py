@@ -32,7 +32,7 @@ test_pipeline = [
     dict(type='Collect', keys=['img'])
 ]
 
-data_prefix = 'data/train1A'
+data_prefix = 'data/all_train_imgs'
 ann_file_train = 'data/labels/upper_colors_train.csv'
 ann_file_val = 'data/labels/upper_colors_val.csv'
 data = dict(

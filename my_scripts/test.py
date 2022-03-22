@@ -1,10 +1,5 @@
 import numpy as np
+import shutil
 
-test = [{'a':1}
-        ,{'a':2}
-        ,{'a':3}
-        ,{'a':4}
-        ]
+shutil.copyfile(oldname, newname)
 
-test = [x for x in test if x['a'] >= 2]
-print(test)

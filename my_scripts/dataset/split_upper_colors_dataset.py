@@ -1,9 +1,9 @@
 import csv
 import numpy as np
 
-upper_labels_filepath = 'data/train1A_relabeled.csv'
-train_dataset_filepath = 'data/upper_colors_train.csv'
-val_dataset_filepath = 'data/upper_colors_val.csv'
+upper_labels_filepath = 'data/labels/train1A_relabeled.csv'
+train_dataset_filepath = 'data/labels/upper_colors_train.csv'
+val_dataset_filepath = 'data/labels/upper_colors_val.csv'
 
 # train 0.9 val 0.1
 split_ratio = 0.9
