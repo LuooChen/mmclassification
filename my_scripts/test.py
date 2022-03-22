@@ -1,5 +1,5 @@
 import numpy as np
 import shutil
 
-shutil.copyfile(oldname, newname)
-
+classes_counter = [[] for i in range(len(['a','b','c']))]
+print(classes_counter)
