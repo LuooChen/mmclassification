@@ -1,0 +1,6 @@
+﻿name,upperLength,clothesStyles,hairStyles,upperBlack,upperBrown,upperBlue,upperGreen,upperGray,upperOrange,upperPink,upperPurple,upperRed,upperWhite,upperYellow
+img_qh_train1A_02546009724.jpg,NoSleeve,multicolour,Short,,,,,,,0.2,,,0.8,
+img_qh_train1A_02938006261.jpg,NoSleeve,multicolour,Long,0.2,,,,,,,,,0.8,
+img_qh_train1A_03037009746.jpg,NoSleeve,Solidcolor,Long,,,,,,,,,,,1
+img_qh_train1A_03125004004.jpg,NoSleeve,Solidcolor,Short,,,,,,,,,,1,
+img_qh_train1A_03157002099.jpg,NoSleeve,Solidcolor,middle,,,,,,,,,,1,

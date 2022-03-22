@@ -1,0 +1,34 @@
+﻿model,config_upper,config_upper_colors,input_size,batchsize,augmentation,thr,loss,infer,upper_epoch,upper_MF1,upper_colors_epoch,upper_colors_MF1,MF1,LB,upper_f1_class,upper_colors_f1_class,comment
+VGG_16,my_vgg16_b16_upper_1,my_vgg16_b16_upper_colors_1,224*224,16,"RandomResizedCrop,RandomFlip",0.5,CrossEntropyLoss,get_upper_colors_result_by_clothesStyles,40,51.89,40,65.16,58.84,63.86,,,训练和测试，均没有输入完整的图像，被剪裁了一部分
+VGG_16,my_vgg16_b16_upper_2,my_vgg16_b16_upper_colors_2,224*224,16,,0.5,CrossEntropyLoss,get_upper_colors_result_by_clothesStyles,12,59.5,12,69.1,64.53,68.34,,,训练和测试，通过缩放输入完整图像
+VGG_16,my_vgg16_b16_upper_2,my_vgg16_b16_upper_colors_2,224*224,16,,0.5,CrossEntropyLoss,get_upper_colors_result_by_clothesStyles,40,57.64,40,66.95,62.52,69,"[{'LongSleeve': '0.908'}, {'ShortSleeve': '0.685'}, {'NoSleeve': '0.000'}, {'Solidcolor': '0.891'}, {'multicolour': '0.636'}, {'lattice': '0.583'}, {'Long': '0.818'}, {'middle': '0.400'}, {'Short': '0.843'}, {'Bald': '0.000'}]","[{'upperBlack': '0.850'}, {'upperBrown': '0.381'}, {'upperBlue': '0.743'}, {'upperGreen': '0.583'}, {'upperGray': '0.547'}, {'upperOrange': '0.800'}, {'upperPink': '0.711'}, {'upperPurple': '0.476'}, {'upperRed': '0.711'}, {'upperWhite': '0.859'}, {'upperYellow': '0.703'}]",
+VGG_16,my_vgg16_b16_upper_2,my_vgg16_b16_upper_colors_2,224*224,16,,0.5,CrossEntropyLoss,get_upper_colors_result_by_thr,40,57.64,40,66.95,62.52,68.85,,,
+VGG_16,my_vgg16_b16_upper_6,my_vgg16_b16_upper_colors_6,224*224,16,RandomFlip,0.5,CrossEntropyLoss,get_upper_colors_result_by_clothesStyles,39,62.29,32,70.71,66.7,69.57,"[{'LongSleeve': '0.949'}, {'ShortSleeve': '0.832'}, {'NoSleeve': '0.000'}, {'Solidcolor': '0.943'}, {'multicolour': '0.816'}, {'lattice': '0.727'}, {'Long': '0.896'}, {'middle': '0.550'}, {'Short': '0.884'}, {'Bald': '0.000'}]","[{'upperBlack': '0.882'}, {'upperBrown': '0.381'}, {'upperBlue': '0.746'}, {'upperGreen': '0.636'}, {'upperGray': '0.606'}, {'upperOrange': '0.857'}, {'upperPink': '0.750'}, {'upperPurple': '0.640'}, {'upperRed': '0.718'}, {'upperWhite': '0.877'}, {'upperYellow': '0.684'}]",取bestMF1的model
+VGG_16,my_vgg16_b16_upper_7,my_vgg16_b16_upper_colors_7,224*224,16,RandomFlip,0.5,MultilabelCatCrossLoss,get_upper_colors_result_by_clothesStyles,37,62.3,36,71.57,67.16,69.02,"[{'LongSleeve': '0.942'}, {'ShortSleeve': '0.789'}, {'NoSleeve': '0.000'}, {'Solidcolor': '0.923'}, {'multicolour': '0.744'}, {'lattice': '0.783'}, {'Long': '0.899'}, {'middle': '0.636'}, {'Short': '0.885'}, {'Bald': '0.000'}]","[{'upperBlack': '0.858'}, {'upperBrown': '0.364'}, {'upperBlue': '0.746'}, {'upperGreen': '0.636'}, {'upperGray': '0.645'}, {'upperOrange': '0.769'}, {'upperPink': '0.784'}, {'upperPurple': '0.667'}, {'upperRed': '0.756'}, {'upperWhite': '0.867'}, {'upperYellow': '0.780'}]",采用新的loss
+VGG_16,my_vgg16_b16_upper_8,my_vgg16_b16_upper_colors_8,224*224,16,RandomFlip,0.5,MultilabelCatCrossLoss,get_upper_colors_result_by_clothesStyles,24,61.61,33,69.6,65.7952381,68.79,"[{'LongSleeve': '0.928'}, {'ShortSleeve': '0.763'}, {'NoSleeve': '0.000'}, {'Solidcolor': '0.904'}, {'multicolour': '0.688'}, {'lattice': '0.762'}, {'Long': '0.840'}, {'middle': '0.425'}, {'Short': '0.851'}, {'Bald': '0.000'}]","[{'upperBlack': '0.891'}, {'upperBrown': '0.381'}, {'upperBlue': '0.769'}, {'upperGreen': '0.667'}, {'upperGray': '0.649'}, {'upperOrange': '0.667'}, {'upperPink': '0.653'}, {'upperPurple': '0.522'}, {'upperRed': '0.840'}, {'upperWhite': '0.874'}, {'upperYellow': '0.744'}]",重新标注错误的label
+VGG_16,my_vgg16_b16_upper_9,my_vgg16_b16_upper_colors_9,224*224,16,RandomFlip,0.5,MultilabelCatCrossLoss,get_upper_colors_result_by_clothesStyles,38,63.67,21,70.2,67.09047619,,"[{'LongSleeve': '0.939'}, {'ShortSleeve': '0.789'}, {'NoSleeve': '0.000'}, {'Solidcolor': '0.918'}, {'multicolour': '0.705'}, {'lattice': '0.696'}, {'Long': '0.847'}, {'middle': '0.395'}, {'Short': '0.829'}, {'Bald': '0.250'}]","[{'upperBlack': '0.867'}, {'upperBrown': '0.364'}, {'upperBlue': '0.689'}, {'upperGreen': '0.667'}, {'upperGray': '0.609'}, {'upperOrange': '0.857'}, {'upperPink': '0.840'}, {'upperPurple': '0.621'}, {'upperRed': '0.652'}, {'upperWhite': '0.872'}, {'upperYellow': '0.686'}]",加入了手动标注的testA和testB数据集中的bald和nosleeve类别数据
+VGG_16,my_vgg16_b16_upper_10,my_vgg16_b16_upper_colors_10,224*224,16,RandomFlip,0.5,CrossEntropyLoss,get_upper_colors_result_by_clothesStyles,35,63.86,,,0,,"[{'LongSleeve': '0.937'}, {'ShortSleeve': '0.790'}, {'NoSleeve': '0.000'}, {'Solidcolor': '0.911'}, {'multicolour': '0.680'}, {'lattice': '0.632'}, {'Long': '0.860'}, {'middle': '0.471'}, {'Short': '0.856'}, {'Bald': '0.250'}]",,
+,,,,,,,,,,,,,0,,,,
+,,,,,,,,,,,,,0,,,,
+,,,,,,,,,,,,,0,,,,
+,,,,,,,,,,,,,0,,,,
+,,,,,,,,,,,,,0,,,,
+,,,,,,,,,,,,,0,,,,
+,,,,,,,,,,,,,0,,,,
+,,,,,,,,,,,,,0,,,,
+,,,,,,,,,,,,,0,,,,
+,,,,,,,,,,,,,0,,,,
+,,,,,,,,,,,,,0,,,,
+,,,,,,,,,,,,,0,,,,
+,,,,,,,,,,,,,0,,,,
+,,,,,,,,,,,,,0,,,,
+,,,,,,,,,,,,,0,,,,
+,,,,,,,,,,,,,0,,,,
+,,,,,,,,,,,,,0,,,,
+,,,,,,,,,,,,,0,,,,
+,,,,,,,,,,,,,0,,,,
+,,,,,,,,,,,,,0,,,,
+,,,,,,,,,,,,,0,,,,
+,,,,,,,,,,,,,0,,,,
+,,,,,,,,,,,,,0,,,,
+,,,,,,,,,,,,,0,,,,

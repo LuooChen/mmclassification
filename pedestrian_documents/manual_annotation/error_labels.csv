@@ -1,0 +1,4 @@
+﻿name,upperLength,clothesStyles,hairStyles,upperBlack,upperBrown,upperBlue,upperGreen,upperGray,upperOrange,upperPink,upperPurple,upperRed,upperWhite,upperYellow,error
+img_qh_train1A_01675007249.jpg,NoSleeve,Solidcolor,middle,,,,1,,,,,,,,LongSleeve
+img_qh_train1A_02101007849.jpg,NoSleeve,Solidcolor,Short,1,,,,,,,,,,,LongSleeve
+img_qh_train1A_03332005921.jpg,NoSleeve,Solidcolor,Long,,,,,1,,,,,,,LongSleeve
