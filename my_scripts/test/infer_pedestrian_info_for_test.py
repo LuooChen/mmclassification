@@ -4,17 +4,25 @@ import os
 import csv
 
 from mmcls.apis import infer_pedestrian_info, init_model, show_result_pyplot
+config_root = "work_dirs"
+main_7_props_config_name = "my_vgg16_b16_main_7_props_11"
+main_7_props_epoch_name = "epoch_37.pth"
+upper_colors_config_name = "my_vgg16_b16_upper_colors_11"
+upper_colors_epoch_name = "epoch_34.pth"
+lower_colors_config_name = "my_vgg16_b16_lower_colors_11"
+lower_colors_epoch_name = "epoch_39.pth"
 
-main_7_props_config = "work_dirs/my_vgg16_b16_upper_9/my_vgg16_b16_upper_9.py"
-main_7_props_checkpoint = "work_dirs/my_vgg16_b16_upper_9/epoch_38.pth"
-upper_colors_config = "work_dirs/my_vgg16_b16_upper_colors_9/my_vgg16_b16_upper_colors_9.py"
-upper_colors_checkpoint = "work_dirs/my_vgg16_b16_upper_colors_9/epoch_21.pth"
-lower_colors_config = "work_dirs/my_vgg16_b16_upper_colors_9/my_vgg16_b16_upper_colors_9.py"
-lower_colors_checkpoint = "work_dirs/my_vgg16_b16_upper_colors_9/epoch_21.pth"
 # device = "cpu"
 device = "cuda:0"
 data_root = 'data/test22A'
-save_csv_path = 'data/submitPhase2/result_9_best.csv'
+save_csv_path = 'data/submitPhase2/result_11_best.csv'
+
+main_7_props_config = os.path.join(config_root, main_7_props_config_name, main_7_props_config_name+".py")
+main_7_props_checkpoint = os.path.join(config_root, main_7_props_config_name, main_7_props_epoch_name)
+upper_colors_config = os.path.join(config_root, upper_colors_config_name, upper_colors_config_name+".py")
+upper_colors_checkpoint = os.path.join(config_root, upper_colors_config_name, upper_colors_epoch_name)
+lower_colors_config = os.path.join(config_root, lower_colors_config_name, lower_colors_config_name+".py")
+lower_colors_checkpoint = os.path.join(config_root, lower_colors_config_name, lower_colors_epoch_name)
 
 submit_csv_header = ['name', 'upperLength', 'clothesStyles', 'hairStyles', 'lowerLength',
 'lowerStyles', 'shoesStyles', 'towards', 'upperBlack', 'upperBrown',

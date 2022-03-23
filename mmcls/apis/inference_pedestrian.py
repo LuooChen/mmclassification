@@ -100,7 +100,7 @@ def infer_pedestrian_info(model_main_7_props, model_upper_colors, model_lower_co
     upper_colors_result = infer_colors_top3(model_upper_colors, img)
     upper_colors_result = get_colors_result_by_colorStyles(main_7_props_result['clothesStyles']['pred_class'], upper_colors_result)
     main_7_props_result['upper_colors'] = upper_colors_result
-    lower_colors_result = infer_colors_top3(model_upper_colors, img)
+    lower_colors_result = infer_colors_top3(model_lower_colors, img)
     lower_colors_result = get_colors_result_by_colorStyles(main_7_props_result['lowerStyles']['pred_class'], lower_colors_result)
     main_7_props_result['lower_colors'] = lower_colors_result
     return main_7_props_result
