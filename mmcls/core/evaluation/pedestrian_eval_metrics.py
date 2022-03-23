@@ -23,7 +23,7 @@ def nd_format(pred_class, classes, format_string ='{0:.3f}'):
         })
     return str(result)
 
-def upper_average_performance(pred, target, thr=None, k=None):
+def pedestrian_upper_average_performance(pred, target, thr=None, k=None):
     """Calculate CP, CR, CF1, OP, OR, OF1, MF1, where C stands for per-class
     average, O stands for overall average, P stands for precision, R stands for
     recall and F1 stands for F1-score, MF1 stands for MacroF1.
@@ -79,14 +79,96 @@ def upper_average_performance(pred, target, thr=None, k=None):
         tp.sum(axis=0) + fp.sum(axis=0), eps)
     recall_class = tp.sum(axis=0) / np.maximum(
         tp.sum(axis=0) + fn.sum(axis=0), eps)
-
-    # _classes = list(_classes)
-    # print('precision_class: ', nd_format(precision_class, _classes))
-    # print('recall_class: ', nd_format(recall_class, _classes))
-
     # calculate MacroF1
     f1_class = 2 * precision_class * recall_class / np.maximum(precision_class + recall_class, eps)
-    # print_log('f1_class: ' + nd_format(f1_class, _classes), logger=logger, level=logging.INFO)
+
+    MF1 = f1_class.mean() * 100.0
+    CP = precision_class.mean() * 100.0
+    CR = recall_class.mean() * 100.0
+    CF1 = 2 * CP * CR / np.maximum(CP + CR, eps)
+    OP = tp.sum() / np.maximum(tp.sum() + fp.sum(), eps) * 100.0
+    OR = tp.sum() / np.maximum(tp.sum() + fn.sum(), eps) * 100.0
+    OF1 = 2 * OP * OR / np.maximum(OP + OR, eps)
+    return CP, CR, CF1, MF1, OP, OR, OF1, precision_class, recall_class, f1_class
+
+
+def pedestrian_main_7_props_average_performance(pred, target, thr=None, k=None):
+    """Calculate CP, CR, CF1, OP, OR, OF1, MF1, where C stands for per-class
+    average, O stands for overall average, P stands for precision, R stands for
+    recall and F1 stands for F1-score, MF1 stands for MacroF1.
+
+    Args:
+        pred (torch.Tensor | np.ndarray): The model prediction with shape
+            (N, C), where C is the number of classes.
+        target (torch.Tensor | np.ndarray): The target of each prediction with
+            shape (N, C), where C is the number of classes. 1 stands for
+            positive examples, 0 stands for negative examples and -1 stands for
+            difficult examples.
+        thr (float): The confidence threshold. Defaults to None.
+        k (int): Top-k performance. Note that if thr and k are both given, k
+            will be ignored. Defaults to None.
+
+    Returns:
+        tuple: (CP, CR, CF1, OP, OR, OF1, MF1)
+    """
+    if isinstance(pred, torch.Tensor) and isinstance(target, torch.Tensor):
+        pred = pred.detach().cpu().numpy()
+        target = target.detach().cpu().numpy()
+    elif not (isinstance(pred, np.ndarray) and isinstance(target, np.ndarray)):
+        raise TypeError('pred and target should both be torch.Tensor or'
+                        'np.ndarray')
+
+    assert pred.shape == \
+        target.shape, 'pred and target should be in the same shape.'
+
+    eps = np.finfo(np.float32).eps
+    target[target == -1] = 0
+    # special predicted positive for pedestrian main 7 props
+
+    # 7 main props
+    # 'upperLength', 'clothesStyles', 'hairStyles', 'lowerLength',
+    # 'lowerStyles', 'shoesStyles', 'towards'
+    # CLASSES = ('LongSleeve', 'ShortSleeve', 'NoSleeve',
+    #            'Solidcolor', 'multicolour', 'lattice',
+    #            'Long', 'middle', 'Short', 'Bald',
+    #            'Skirt', 'Trousers', 'Shorts',
+    #            'multicolour', 'Solidcolor', 'lattice',
+    #            'Sandals', 'LeatherShoes', 'Sneaker', 'else',
+    #            'right', 'left', 'front', 'back')
+
+    pos_inds = np.zeros_like(pred)
+    upperLength_max_col_indexes = pred[:,:3].argmax(axis=1)
+    for (row, col) in enumerate(upperLength_max_col_indexes):
+        pos_inds[row][col] = 1
+    clothesStyles_max_col_indexes = pred[:,3:6].argmax(axis=1) + 3
+    for (row, col) in enumerate(clothesStyles_max_col_indexes):
+        pos_inds[row][col] = 1
+    hairStyles_max_col_indexes = pred[:,6:10].argmax(axis=1) + 6
+    for (row, col) in enumerate(hairStyles_max_col_indexes):
+        pos_inds[row][col] = 1
+    lowerLength_max_col_indexes = pred[:,10:13].argmax(axis=1) + 10
+    for (row, col) in enumerate(lowerLength_max_col_indexes):
+        pos_inds[row][col] = 1
+    lowerStyles_max_col_indexes = pred[:,13:16].argmax(axis=1) + 13
+    for (row, col) in enumerate(lowerStyles_max_col_indexes):
+        pos_inds[row][col] = 1
+    shoesStyles_max_col_indexes = pred[:,16:20].argmax(axis=1) + 16
+    for (row, col) in enumerate(shoesStyles_max_col_indexes):
+        pos_inds[row][col] = 1
+    towards_max_col_indexes = pred[:,20:24].argmax(axis=1) + 20
+    for (row, col) in enumerate(towards_max_col_indexes):
+        pos_inds[row][col] = 1
+
+    tp = (pos_inds * target) == 1
+    fp = (pos_inds * (1 - target)) == 1
+    fn = ((1 - pos_inds) * target) == 1
+
+    precision_class = tp.sum(axis=0) / np.maximum(
+        tp.sum(axis=0) + fp.sum(axis=0), eps)
+    recall_class = tp.sum(axis=0) / np.maximum(
+        tp.sum(axis=0) + fn.sum(axis=0), eps)
+    # calculate MacroF1
+    f1_class = 2 * precision_class * recall_class / np.maximum(precision_class + recall_class, eps)
 
     MF1 = f1_class.mean() * 100.0
     CP = precision_class.mean() * 100.0
@@ -129,7 +211,7 @@ def pedestrian_colors_average_performance(pred, target, thr=0.5, k=3):
     eps = np.finfo(np.float32).eps
     target[target == -1] = 0
 
-    # special predicted positive for pedestrian upper
+    # special predicted positive for pedestrian colors
     if k is None:
         k = 3
     # top-k labels will be predicted positive for any example
@@ -154,13 +236,8 @@ def pedestrian_colors_average_performance(pred, target, thr=0.5, k=3):
         tp.sum(axis=0) + fn.sum(axis=0), eps)
     np.set_printoptions(linewidth=400)
 
-    # _classes = list(_classes)
-    # print('precision_class: ', nd_format(precision_class, _classes))
-    # print('recall_class: ', nd_format(recall_class, _classes))
-
     # calculate MacroF1
     f1_class = 2 * precision_class * recall_class / np.maximum(precision_class + recall_class, eps)
-    # print_log('f1_class: ' + nd_format(f1_class, _classes), logger=logger, level=logging.INFO)
 
     MF1 = f1_class.mean() * 100.0
     CP = precision_class.mean() * 100.0

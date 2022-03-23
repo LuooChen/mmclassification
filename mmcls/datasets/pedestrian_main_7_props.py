@@ -10,19 +10,25 @@ import logging
 
 from .builder import DATASETS
 from .multi_label import MultiLabelDataset
-from mmcls.core import pedestrian_upper_average_performance, mAP
+from mmcls.core import pedestrian_main_7_props_average_performance, mAP
 
 @DATASETS.register_module()
-class PedestrianUpper(MultiLabelDataset):
+class PedestrianMain7Props(MultiLabelDataset):
     """`Pascal VOC <http://host.robots.ox.ac.uk/pascal/VOC/>`_ Dataset."""
 
-    # 'upperLength', 'clothesStyles', 'hairStyles'
+    # 7 main props
+    # 'upperLength', 'clothesStyles', 'hairStyles', 'lowerLength',
+    # 'lowerStyles', 'shoesStyles', 'towards'
     CLASSES = ('LongSleeve', 'ShortSleeve', 'NoSleeve',
                'Solidcolor', 'multicolour', 'lattice',
-               'Long', 'middle', 'Short', 'Bald')
+               'Long', 'middle', 'Short', 'Bald',
+               'Skirt', 'Trousers', 'Shorts',
+               'multicolour', 'Solidcolor', 'lattice',
+               'Sandals', 'LeatherShoes', 'Sneaker', 'else',
+               'right', 'left', 'front', 'back')
 
     def __init__(self, **kwargs):
-        super(PedestrianUpper, self).__init__(**kwargs)
+        super(PedestrianMain7Props, self).__init__(**kwargs)
 
     def load_annotations(self):
         """Load annotations.
@@ -30,13 +36,19 @@ class PedestrianUpper(MultiLabelDataset):
         Returns:
             list[dict]: Annotation info from XML file.
         """
+        #'upperLength', 'clothesStyles', 'hairStyles', 'lowerLength',
+        # 'lowerStyles', 'shoesStyles', 'towards'
         data_infos = []
         with open(self.ann_file) as f:
             reader = csv.DictReader(f)
             for row in reader:
                 labels = [self.class_to_idx[row['upperLength']],
                           self.class_to_idx[row['clothesStyles']],
-                          self.class_to_idx[row['hairStyles']]]
+                          self.class_to_idx[row['hairStyles']],
+                          self.class_to_idx[row['lowerLength']],
+                          self.class_to_idx[row['lowerStyles']],
+                          self.class_to_idx[row['shoesStyles']],
+                          self.class_to_idx[row['towards']]]
                 gt_label = np.zeros(len(self.CLASSES))
                 gt_label[labels] = 1
                 info = dict(
@@ -104,7 +116,7 @@ class PedestrianUpper(MultiLabelDataset):
         if len(set(metrics) - {'mAP'}) != 0:
             # performance_keys = ['CP', 'CR', 'CF1', 'MF1', 'OP', 'OR', 'OF1']
             performance_keys = ['CP', 'CR', 'CF1', 'MF1', 'OP', 'OR', 'OF1', 'precision_class', 'recall_class', 'f1_class']
-            performance_values = pedestrian_upper_average_performance(results, gt_labels,
+            performance_values = pedestrian_main_7_props_average_performance(results, gt_labels,
                                                      **metric_options)
             for k, v in zip(performance_keys, performance_values):
                 if k in metrics:
