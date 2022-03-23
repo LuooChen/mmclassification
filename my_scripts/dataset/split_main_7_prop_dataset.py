@@ -2,7 +2,7 @@ import csv
 import numpy as np
 import math
 
-upper_labels_filepath = 'data/labels/train22.csv'
+train_labels_filepath = 'data/labels/train22.csv'
 train_dataset_filepath = 'data/labels/main_7_prop_train.csv'
 val_dataset_filepath = 'data/labels/main_7_prop_val.csv'
 
@@ -62,7 +62,7 @@ exclude_classes = {
 }
 exclude_prop_classes_indexes = [[], [], [], [], [], []]
 
-with open(upper_labels_filepath) as f:
+with open(train_labels_filepath) as f:
     reader = csv.DictReader(f)
     upper_labels_header = reader.fieldnames
     print('upper_labels_header: ', upper_labels_header)
