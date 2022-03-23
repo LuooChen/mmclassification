@@ -6,13 +6,13 @@ import torch
 from mmcv.utils import print_log
 import logging
 
-upper_classes = ['LongSleeve', 'ShortSleeve', 'NoSleeve',
-                 'Solidcolor', 'multicolour', 'lattice',
-                 'Long', 'middle', 'Short', 'Bald']
+# upper_classes = ['LongSleeve', 'ShortSleeve', 'NoSleeve',
+#                  'Solidcolor', 'multicolour', 'lattice',
+#                  'Long', 'middle', 'Short', 'Bald']
 
-upper_colors_classes = ['upperBlack',
-                        'upperBrown', 'upperBlue', 'upperGreen', 'upperGray', 'upperOrange',
-                        'upperPink', 'upperPurple', 'upperRed', 'upperWhite', 'upperYellow']
+# upper_colors_classes = ['upperBlack',
+#                         'upperBrown', 'upperBlue', 'upperGreen', 'upperGray', 'upperOrange',
+#                         'upperPink', 'upperPurple', 'upperRed', 'upperWhite', 'upperYellow']
 
 def nd_format(pred_class, classes, format_string ='{0:.3f}'):
     pred_class = [format_string.format(v,i) for i,v in enumerate(pred_class)]
@@ -23,7 +23,7 @@ def nd_format(pred_class, classes, format_string ='{0:.3f}'):
         })
     return str(result)
 
-def upper_average_performance(pred, target, logger=None, thr=None, k=None):
+def upper_average_performance(pred, target, thr=None, k=None):
     """Calculate CP, CR, CF1, OP, OR, OF1, MF1, where C stands for per-class
     average, O stands for overall average, P stands for precision, R stands for
     recall and F1 stands for F1-score, MF1 stands for MacroF1.
@@ -55,7 +55,7 @@ def upper_average_performance(pred, target, logger=None, thr=None, k=None):
     eps = np.finfo(np.float32).eps
     target[target == -1] = 0
     # special predicted positive for pedestrian upper
-    
+
     # 'upperLength', 'clothesStyles', 'hairStyles'
     # CLASSES = ('LongSleeve', 'ShortSleeve', 'NoSleeve',
     #            'Solidcolor', 'multicolour', 'lattice',
@@ -79,12 +79,14 @@ def upper_average_performance(pred, target, logger=None, thr=None, k=None):
         tp.sum(axis=0) + fp.sum(axis=0), eps)
     recall_class = tp.sum(axis=0) / np.maximum(
         tp.sum(axis=0) + fn.sum(axis=0), eps)
-    print('precision_class: ', nd_format(precision_class, upper_classes))
-    print('recall_class: ', nd_format(recall_class, upper_classes))
+
+    # _classes = list(_classes)
+    # print('precision_class: ', nd_format(precision_class, _classes))
+    # print('recall_class: ', nd_format(recall_class, _classes))
+
     # calculate MacroF1
     f1_class = 2 * precision_class * recall_class / np.maximum(precision_class + recall_class, eps)
-    # print('f1_class: ', nd_format(f1_class, upper_classes))
-    print_log('f1_class: ' + nd_format(f1_class, upper_classes), logger=logger, level=logging.INFO)
+    # print_log('f1_class: ' + nd_format(f1_class, _classes), logger=logger, level=logging.INFO)
 
     MF1 = f1_class.mean() * 100.0
     CP = precision_class.mean() * 100.0
@@ -93,9 +95,9 @@ def upper_average_performance(pred, target, logger=None, thr=None, k=None):
     OP = tp.sum() / np.maximum(tp.sum() + fp.sum(), eps) * 100.0
     OR = tp.sum() / np.maximum(tp.sum() + fn.sum(), eps) * 100.0
     OF1 = 2 * OP * OR / np.maximum(OP + OR, eps)
-    return CP, CR, CF1, MF1, OP, OR, OF1
+    return CP, CR, CF1, MF1, OP, OR, OF1, precision_class, recall_class, f1_class
 
-def upper_colors_average_performance(pred, target, logger=None, thr=0.5, k=3):
+def pedestrian_colors_average_performance(pred, target, thr=0.5, k=3):
     """Calculate CP, CR, CF1, OP, OR, OF1, MF1, where C stands for per-class
     average, O stands for overall average, P stands for precision, R stands for
     recall and F1 stands for F1-score, MF1 stands for MacroF1.
@@ -126,7 +128,7 @@ def upper_colors_average_performance(pred, target, logger=None, thr=0.5, k=3):
 
     eps = np.finfo(np.float32).eps
     target[target == -1] = 0
-    
+
     # special predicted positive for pedestrian upper
     if k is None:
         k = 3
@@ -151,12 +153,14 @@ def upper_colors_average_performance(pred, target, logger=None, thr=0.5, k=3):
     recall_class = tp.sum(axis=0) / np.maximum(
         tp.sum(axis=0) + fn.sum(axis=0), eps)
     np.set_printoptions(linewidth=400)
-    print('precision_class: ', nd_format(precision_class, upper_colors_classes))
-    print('recall_class: ', nd_format(recall_class, upper_colors_classes))
+
+    # _classes = list(_classes)
+    # print('precision_class: ', nd_format(precision_class, _classes))
+    # print('recall_class: ', nd_format(recall_class, _classes))
+
     # calculate MacroF1
     f1_class = 2 * precision_class * recall_class / np.maximum(precision_class + recall_class, eps)
-    # print('f1_class: ', nd_format(f1_class, upper_colors_classes))
-    print_log('f1_class: ' + nd_format(f1_class, upper_colors_classes), logger=logger, level=logging.INFO)
+    # print_log('f1_class: ' + nd_format(f1_class, _classes), logger=logger, level=logging.INFO)
 
     MF1 = f1_class.mean() * 100.0
     CP = precision_class.mean() * 100.0
@@ -165,4 +169,4 @@ def upper_colors_average_performance(pred, target, logger=None, thr=0.5, k=3):
     OP = tp.sum() / np.maximum(tp.sum() + fp.sum(), eps) * 100.0
     OR = tp.sum() / np.maximum(tp.sum() + fn.sum(), eps) * 100.0
     OF1 = 2 * OP * OR / np.maximum(OP + OR, eps)
-    return CP, CR, CF1, MF1, OP, OR, OF1
+    return CP, CR, CF1, MF1, OP, OR, OF1, precision_class, recall_class, f1_class

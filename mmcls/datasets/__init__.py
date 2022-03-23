@@ -13,11 +13,13 @@ from .samplers import DistributedSampler, RepeatAugSampler
 from .voc import VOC
 from .pedestrian_upper import PedestrianUpper
 from .pedestrian_upper_colors import PedestrianUpperColors
+from .pedestrian_lower_colors import PedestrianLowerColors
 
 __all__ = [
     'BaseDataset', 'ImageNet', 'CIFAR10', 'CIFAR100', 'MNIST', 'FashionMNIST',
     'VOC', 'MultiLabelDataset', 'build_dataloader', 'build_dataset',
     'DistributedSampler', 'ConcatDataset', 'RepeatDataset',
     'ClassBalancedDataset', 'DATASETS', 'PIPELINES', 'ImageNet21k', 'SAMPLERS',
-    'build_sampler', 'RepeatAugSampler', 'KFoldDataset', 'PedestrianUpper', 'PedestrianUpperColors'
+    'build_sampler', 'RepeatAugSampler', 'KFoldDataset', 'PedestrianUpper', 'PedestrianUpperColors',
+    'PedestrianLowerColors'
 ]

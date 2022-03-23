@@ -14,18 +14,18 @@ from mmcls.core import pedestrian_colors_average_performance, mAP
 
 
 @DATASETS.register_module()
-class PedestrianUpperColors(MultiLabelDataset):
+class PedestrianLowerColors(MultiLabelDataset):
     """`Pascal VOC <http://host.robots.ox.ac.uk/pascal/VOC/>`_ Dataset."""
 
-    # upper_colors
-    CLASSES = ('upperBlack',
-               'upperBrown', 'upperBlue', 'upperGreen', 'upperGray', 'upperOrange',
-               'upperPink', 'upperPurple', 'upperRed', 'upperWhite', 'upperYellow')
+    # lower_colors
+    CLASSES = ('lowerBlack',
+               'lowerBrown', 'lowerBlue', 'lowerGreen', 'lowerGray', 'lowerOrange',
+               'lowerPink', 'lowerPurple', 'lowerRed', 'lowerWhite', 'lowerYellow')
 
     def __init__(self, **kwargs):
-        super(PedestrianUpperColors, self).__init__(**kwargs)
+        super(PedestrianLowerColors, self).__init__(**kwargs)
 
-    def get_upper_colors_labels(self, row) -> list:
+    def get_lower_colors_labels(self, row) -> list:
         labels = []
         for (index, color) in enumerate(self.CLASSES):
             if row[color] != '':
@@ -42,7 +42,7 @@ class PedestrianUpperColors(MultiLabelDataset):
         with open(self.ann_file) as f:
             reader = csv.DictReader(f)
             for row in reader:
-                labels = self.get_upper_colors_labels(row)
+                labels = self.get_lower_colors_labels(row)
                 gt_label = np.zeros(len(self.CLASSES))
                 gt_label[labels] = 1
                 info = dict(
