@@ -12,6 +12,7 @@ from .multi_label import MultiLabelDataset
 from .samplers import DistributedSampler, RepeatAugSampler
 from .voc import VOC
 from .pedestrian_upper import PedestrianUpper
+from .pedestrian_main_7_props import PedestrianMain7Props
 from .pedestrian_upper_colors import PedestrianUpperColors
 from .pedestrian_lower_colors import PedestrianLowerColors
 
@@ -21,5 +22,5 @@ __all__ = [
     'DistributedSampler', 'ConcatDataset', 'RepeatDataset',
     'ClassBalancedDataset', 'DATASETS', 'PIPELINES', 'ImageNet21k', 'SAMPLERS',
     'build_sampler', 'RepeatAugSampler', 'KFoldDataset', 'PedestrianUpper', 'PedestrianUpperColors',
-    'PedestrianLowerColors'
+    'PedestrianLowerColors', 'PedestrianMain7Props'
 ]
