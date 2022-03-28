@@ -2,7 +2,7 @@ import csv
 import numpy as np
 import math
 
-train_labels_filepath = 'data/labels/train22.csv'
+train_labels_filepath = 'data/labels/train22_relabeled.csv'
 upper_train_dataset_filepath = 'data/labels/upper_colors_train.csv'
 upper_val_dataset_filepath = 'data/labels/upper_colors_val.csv'
 
@@ -90,10 +90,27 @@ def split_samples(group_samples):
             # do not split val dataset when samples less than 6
             if len(samples) <= 5:
                 continue
+            # shuffle samples
+            np.random.shuffle(samples)
             num_of_val = math.ceil((len(samples) * split_val_ratio))
             split_samples = split_by_ratio(val_dataset, samples, num_of_val)
             val_dataset = val_dataset + split_samples
     return list(set(val_dataset))
+
+def split_lower_rare_class() -> list:
+    # split lowerOrange
+    val_dataset = []
+    rare_val_ratio = 0.2
+    all_lowerOrange = []
+    for i in range(len(all_labels_data_info)):
+        row = all_labels_data_info[i]
+        if row['lowerOrange'] != '':
+            all_lowerOrange.append(i)
+    # shuffle samples
+    np.random.shuffle(all_lowerOrange)
+    num_of_val = math.ceil((len(all_lowerOrange) * rare_val_ratio))
+    val_dataset = val_dataset + all_lowerOrange[:num_of_val]
+    return val_dataset
 
 def generate_csv_file(dataset, filepath):
     with open(filepath, 'w', newline='') as csvfile:
@@ -138,8 +155,13 @@ def analyze_classes_blance(val_idxes_dataset, _classes):
 def split_val_by_group_samples(group_samples, _classes, train_dataset_filepath, val_dataset_filepath):
     # split
     val_idxes_dataset = split_samples(group_samples)
+    if _classes[0] == "lowerBlack":
+        # lower colors
+        val_idxes_dataset = val_idxes_dataset + split_lower_rare_class()
     val_idxes_set = set(val_idxes_dataset)
+    val_idxes_dataset = list(val_idxes_dataset)
     all_idxes_set = set(range(len(all_labels_data_info)))
+
     # split train dataset
     train_idxes_dataset = list(all_idxes_set - val_idxes_set)
     # sort

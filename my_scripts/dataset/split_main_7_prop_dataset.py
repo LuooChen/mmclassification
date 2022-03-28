@@ -2,14 +2,14 @@ import csv
 import numpy as np
 import math
 
-train_labels_filepath = 'data/labels/train22.csv'
+train_labels_filepath = 'data/labels/train22_relabeled.csv'
 train_dataset_filepath = 'data/labels/main_7_prop_train.csv'
 val_dataset_filepath = 'data/labels/main_7_prop_val.csv'
 
 # train 0.9 val 0.1
 split_val_ratio = 0.1
-# # rare samples split ratio
-# rare_split_val_ratio = 0.8
+# rare samples split ratio
+split_rare_val_ratio = 0.2
 # set random seed
 np.random.seed(13)
 
@@ -104,7 +104,10 @@ def split_val_by_exclude_props_samples():
     for _class_idx_list in exclude_prop_classes_indexes:
         # shuffle samples
         np.random.shuffle(_class_idx_list)
-        num_of_val = math.ceil(len(_class_idx_list) * split_val_ratio)
+        ratio = split_val_ratio
+        if len(_class_idx_list) < 20:
+            ratio = split_rare_val_ratio
+        num_of_val = math.ceil(len(_class_idx_list) * ratio)
         split_samples = split_by_ratio(val_dataset_indexes, _class_idx_list, num_of_val)
         val_dataset_indexes = val_dataset_indexes + split_samples
     return list(set(val_dataset_indexes))
