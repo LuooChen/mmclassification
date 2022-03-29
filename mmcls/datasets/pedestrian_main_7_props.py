@@ -20,10 +20,10 @@ class PedestrianMain7Props(MultiLabelDataset):
     # 'upperLength', 'clothesStyles', 'hairStyles', 'lowerLength',
     # 'lowerStyles', 'shoesStyles', 'towards'
     CLASSES = ('LongSleeve', 'ShortSleeve', 'NoSleeve',
-               'Solidcolor', 'multicolour', 'lattice',
+               'clothesStyles_Solidcolor', 'clothesStyles_multicolour', 'clothesStyles_lattice',
                'Long', 'middle', 'Short', 'Bald',
                'Skirt', 'Trousers', 'Shorts',
-               'multicolour', 'Solidcolor', 'lattice',
+               'lowerStyles_Solidcolor', 'lowerStyles_multicolour', 'lowerStyles_lattice',
                'Sandals', 'LeatherShoes', 'Sneaker', 'else',
                'right', 'left', 'front', 'back')
 
@@ -43,10 +43,10 @@ class PedestrianMain7Props(MultiLabelDataset):
             reader = csv.DictReader(f)
             for row in reader:
                 labels = [self.class_to_idx[row['upperLength']],
-                          self.class_to_idx[row['clothesStyles']],
+                          self.class_to_idx['clothesStyles_' + row['clothesStyles']],
                           self.class_to_idx[row['hairStyles']],
                           self.class_to_idx[row['lowerLength']],
-                          self.class_to_idx[row['lowerStyles']],
+                          self.class_to_idx['lowerStyles_' + row['lowerStyles']],
                           self.class_to_idx[row['shoesStyles']],
                           self.class_to_idx[row['towards']]]
                 gt_label = np.zeros(len(self.CLASSES))

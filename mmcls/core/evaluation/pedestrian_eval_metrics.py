@@ -129,10 +129,10 @@ def pedestrian_main_7_props_average_performance(pred, target, thr=None, k=None):
     # 'upperLength', 'clothesStyles', 'hairStyles', 'lowerLength',
     # 'lowerStyles', 'shoesStyles', 'towards'
     # CLASSES = ('LongSleeve', 'ShortSleeve', 'NoSleeve',
-    #            'Solidcolor', 'multicolour', 'lattice',
+    #            'clothesStyles_Solidcolor', 'clothesStyles_multicolour', 'clothesStyles_lattice',
     #            'Long', 'middle', 'Short', 'Bald',
     #            'Skirt', 'Trousers', 'Shorts',
-    #            'multicolour', 'Solidcolor', 'lattice',
+    #            'lowerStyles_Solidcolor', 'lowerStyles_multicolour', 'lowerStyles_lattice',
     #            'Sandals', 'LeatherShoes', 'Sneaker', 'else',
     #            'right', 'left', 'front', 'back')
 

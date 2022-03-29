@@ -4,12 +4,12 @@ from mmcls.apis import inference_multi_label_model
 # 'upperLength', 'clothesStyles', 'hairStyles', 'lowerLength',
 # 'lowerStyles', 'shoesStyles', 'towards'
 # CLASSES = ('LongSleeve', 'ShortSleeve', 'NoSleeve',
-#             'Solidcolor', 'multicolour', 'lattice',
-#             'Long', 'middle', 'Short', 'Bald',
-#             'Skirt', 'Trousers', 'Shorts',
-#             'multicolour', 'Solidcolor', 'lattice',
-#             'Sandals', 'LeatherShoes', 'Sneaker', 'else',
-#             'right', 'left', 'front', 'back')
+#            'clothesStyles_Solidcolor', 'clothesStyles_multicolour', 'clothesStyles_lattice',
+#            'Long', 'middle', 'Short', 'Bald',
+#            'Skirt', 'Trousers', 'Shorts',
+#            'lowerStyles_Solidcolor', 'lowerStyles_multicolour', 'lowerStyles_lattice',
+#            'Sandals', 'LeatherShoes', 'Sneaker', 'else',
+#            'right', 'left', 'front', 'back')
 
 # colorStyles
 colorStyles_Solidcolor = 'Solidcolor'
@@ -46,15 +46,31 @@ def infer_upper(model, img) -> dict:
         'hairStyles': get_max_item_of_list(pred_hairStyles)
     }
 
+def convert_stylesClassname_to_classname(stylesClassname) -> str:
+    return stylesClassname.split('_')[1]
+
+def convert_styles_result_list(styles_result_list) -> list:
+    for result in styles_result_list:
+        result['pred_class'] = convert_stylesClassname_to_classname(result['pred_class'])
+    return styles_result_list
+
 def infer_main_7_props(model, img) -> dict:
     # 'upperLength', 'clothesStyles', 'hairStyles', 'lowerLength',
     # 'lowerStyles', 'shoesStyles', 'towards'
     pred_result = inference_multi_label_model(model, img)
     pred_upperLength = pred_result[:3]
+    # 'clothesStyles_Solidcolor', 'clothesStyles_multicolour', 'clothesStyles_lattice'
+    # to 'Solidcolor', 'multicolour', 'lattice'
     pred_clothesStyles = pred_result[3:6]
+    pred_clothesStyles = convert_styles_result_list(pred_clothesStyles)
+    
     pred_hairStyles = pred_result[6:10]
     pred_lowerLength = pred_result[10:13]
+    # 'lowerStyles_Solidcolor', 'lowerStyles_multicolour', 'lowerStyles_lattice'
+    # to 'Solidcolor', 'multicolour', 'lattice'
     pred_lowerStyles = pred_result[13:16]
+    pred_lowerStyles = convert_styles_result_list(pred_lowerStyles)
+    
     pred_shoesStyles = pred_result[16:20]
     pred_towards = pred_result[20:24]
     return {

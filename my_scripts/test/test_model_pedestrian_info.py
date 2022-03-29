@@ -4,12 +4,12 @@ import os
 
 from mmcls.apis import infer_pedestrian_info, init_model, show_result_pyplot
 config_root = "work_dirs"
-main_7_props_config_name = "my_vgg16_b16_main_7_props_11"
-main_7_props_epoch_name = "epoch_37.pth"
-upper_colors_config_name = "my_vgg16_b16_upper_colors_11"
+lower_colors_config_name = "my_vgg19bn_b16_lower_colors_16"
+lower_colors_epoch_name = "epoch_31.pth"
+main_7_props_config_name = "my_vgg19bn_b16_main_7_props_16"
+main_7_props_epoch_name = "epoch_36.pth"
+upper_colors_config_name = "my_vgg19bn_b16_upper_colors_16"
 upper_colors_epoch_name = "epoch_34.pth"
-lower_colors_config_name = "my_vgg16_b16_lower_colors_11"
-lower_colors_epoch_name = "epoch_39.pth"
 
 # device = "cpu"
 device = "cuda:0"
