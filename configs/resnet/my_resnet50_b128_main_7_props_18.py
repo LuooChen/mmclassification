@@ -22,7 +22,7 @@ model = dict(
     head=dict(
         _delete_=True,
         type='MultiLabelLinearClsHead',
-        num_classes=11,
+        num_classes=24,
         in_channels=2048,
         loss=dict(type='CrossEntropyLoss', use_sigmoid=True, loss_weight=1.0)))
 
@@ -80,4 +80,4 @@ optimizer_config = dict(grad_clip=None)
 # learning policy
 lr_config = dict(policy='step', step=[15])
 runner = dict(type='EpochBasedRunner', max_epochs=100)
-log_config = dict(interval=100)
+log_config = dict(interval=40)

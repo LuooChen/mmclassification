@@ -1,13 +1,30 @@
-_base_ = ['../_base_/datasets/voc_bs16.py', '../_base_/default_runtime.py']
+_base_ = [
+    '../_base_/models/resnet50.py', '../_base_/datasets/imagenet_bs32.py',
+    '../_base_/schedules/imagenet_bs256.py', '../_base_/default_runtime.py'
+]
 
-# use different head for multilabel task
+# model settings
 model = dict(
     type='ImageClassifier',
-    backbone=dict(type='VGG', depth=19, norm_cfg=dict(type='BN'), num_classes=24),
-    neck=None,
+    backbone=dict(
+        type='ResNet',
+        depth=50,
+        num_stages=4,
+        out_indices=(3, ),
+        style='pytorch',
+        frozen_stages=-1,
+        init_cfg=dict(
+            type='Pretrained',
+            checkpoint='checkpoints/resnet50_8xb32_in1k_20210831-ea4938fc.pth',
+            prefix='backbone',
+        )),
+    neck=dict(type='GlobalAveragePooling'),
     head=dict(
-        type='MultiLabelClsHead',
-        loss=dict(type='MultilabelCatCrossLoss', loss_weight=1.0)))
+        _delete_=True,
+        type='MultiLabelLinearClsHead',
+        num_classes=24,
+        in_channels=2048,
+        loss=dict(type='CrossEntropyLoss', use_sigmoid=True, loss_weight=1.0)))
 
 # dataset settings
 dataset_type = 'PedestrianMain7Props'
@@ -36,7 +53,7 @@ data_prefix = 'data/train22/train2_new'
 ann_file_train = 'data/labels/main_7_prop_train.csv'
 ann_file_val = 'data/labels/main_7_prop_val.csv'
 data = dict(
-    samples_per_gpu=16,
+    samples_per_gpu=128,
     workers_per_gpu=2,
     train=dict(
         type=dataset_type,
@@ -56,17 +73,11 @@ data = dict(
 evaluation = dict(
     interval=1, save_best="MF1", greater_keys=['MF1'], metric=['mAP', 'CP', 'OP', 'CR', 'OR', 'CF1', 'MF1', 'OF1'])
 
-# load model pretrained on imagenet
-load_from = 'checkpoints/vgg19_bn_batch256_imagenet_20210208-da620c4f.pth'
-# optimizer
-optimizer = dict(
-    type='SGD',
-    lr=0.001,
-    momentum=0.9,
-    weight_decay=0,
-    paramwise_cfg=dict(custom_keys={'.backbone.classifier': dict(lr_mult=10)}))
+# Training schedule config
+# lr is set for a batch size of 128
+optimizer = dict(type='SGD', lr=0.01, momentum=0.9, weight_decay=0.0001)
 optimizer_config = dict(grad_clip=None)
 # learning policy
-lr_config = dict(policy='step', step=20, gamma=0.1)
-runner = dict(type='EpochBasedRunner', max_epochs=40)
-log_config = dict(interval=100)
+lr_config = dict(policy='step', step=[20,40])
+runner = dict(type='EpochBasedRunner', max_epochs=60)
+log_config = dict(interval=40)
