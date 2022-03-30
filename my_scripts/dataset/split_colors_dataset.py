@@ -2,8 +2,8 @@ import csv
 import numpy as np
 import math
 
-# train_labels_filepath = 'data/labels/train22_relabeled.csv'
-train_labels_filepath = 'data/labels/train22.csv'
+train_labels_filepath = 'data/labels/train22_relabeled.csv'
+# train_labels_filepath = 'data/labels/train22.csv'
 upper_train_dataset_filepath = 'data/labels/upper_colors_train.csv'
 upper_val_dataset_filepath = 'data/labels/upper_colors_val.csv'
 

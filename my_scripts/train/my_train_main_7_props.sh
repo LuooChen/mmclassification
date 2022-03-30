@@ -1,1 +1,1 @@
-python tools/train.py configs/vgg/my_vgg19bn_b16_main_7_props_16.py --work-dir work_dirs/my_vgg19bn_b16_main_7_props_16
+python tools/train.py configs/vgg/my_vgg19bn_b16_main_7_props_17.py --work-dir work_dirs/my_vgg19bn_b16_main_7_props_17
