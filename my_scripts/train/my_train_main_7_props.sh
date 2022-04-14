@@ -1,1 +1,1 @@
-python tools/train.py configs/resnet/my_resnet50_b128_main_7_props_18_1.py --work-dir work_dirs/my_resnet50_b128_main_7_props_18_1
+python tools/train.py configs/resnet/my_resnet50_b64_384_main_7_props_19.py --work-dir work_dirs/my_resnet50_b64_384_main_7_props_19
