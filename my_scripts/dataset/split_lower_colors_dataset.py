@@ -2,11 +2,10 @@ import csv
 import numpy as np
 import math
 
-train_labels_filepath = 'data/labels/upper_colors/train22_upper_colors_lables.csv'
-# train_labels_filepath = 'data/labels/train22.csv'
-upper_train_dataset_filepath = 'data/labels/upper_colors/upper_colors_train.csv'
-upper_val_dataset_filepath = 'data/labels/upper_colors/upper_colors_val.csv'
+train_labels_filepath = 'data/labels/lower_colors/train22_lower_colors_lables.csv'
 
+lower_train_dataset_filepath = 'data/labels/lower_colors/lower_colors_train.csv'
+lower_val_dataset_filepath = 'data/labels/lower_colors/lower_colors_val.csv'
 
 # train 0.9 val 0.1
 split_val_ratio = 0.1
@@ -16,10 +15,14 @@ np.random.seed(13)
 # 'clothesStyles'
 clothesStyles_classes = ['Solidcolor', 'multicolour', 'lattice']
 clothesStyles_class_to_idx = {_class: idx for idx, _class in enumerate(clothesStyles_classes)}
-# upper_colors
-upper_colors = ['upperBlack',
-'upperBrown', 'upperBlue', 'upperGreen', 'upperGray', 'upperOrange',
-'upperPink', 'upperPurple', 'upperRed', 'upperWhite', 'upperYellow']
+
+# 'lowerStyles'
+lowerStyles_classes = ['Solidcolor', 'multicolour', 'lattice']
+lowerStyles_class_to_idx = {_class: idx for idx, _class in enumerate(lowerStyles_classes)}
+# lower_colors
+lower_colors = ['lowerBlack',
+'lowerBrown', 'lowerBlue', 'lowerGreen', 'lowerGray', 'lowerOrange',
+'lowerPink', 'lowerPurple', 'lowerRed', 'lowerWhite', 'lowerYellow']
 
 all_labels_data_info = []
 labels_header = []
@@ -36,21 +39,21 @@ def indexof(list, element) -> int:
     finally:
         return index
 
-def get_upper_group_samples() -> list:
-    upper_group_samples = []
+def get_lower_group_samples() -> list:
+    lower_group_samples = []
     for i in range(3):
-        clothesStyles_level = [[] for j in range(11)]
-        upper_group_samples.append(clothesStyles_level)
+        lowerStyles_level = [[] for j in range(11)]
+        lower_group_samples.append(lowerStyles_level)
 
     for (index, row) in enumerate(all_labels_data_info):
-        # upper
-        clothesStyles_index = clothesStyles_class_to_idx[row['clothesStyles']]
-        for (color_index, color) in enumerate(upper_colors):
+        # lower
+        lowerStyles_index = lowerStyles_class_to_idx[row['lowerStyles']]
+        for (color_index, color) in enumerate(lower_colors):
             color_val = row[color]
             if color_val != '':
                 # filter NaN
-                upper_group_samples[clothesStyles_index][color_index].append(index)
-    return upper_group_samples
+                lower_group_samples[lowerStyles_index][color_index].append(index)
+    return lower_group_samples
 
 def split_by_ratio(val_sample, class_samples, num_of_thr) -> list:
     intersection = list(set(val_sample).intersection(set(class_samples)))
@@ -76,6 +79,21 @@ def split_samples(group_samples):
             split_samples = split_by_ratio(val_dataset, samples, num_of_val)
             val_dataset = val_dataset + split_samples
     return list(set(val_dataset))
+
+def split_lower_rare_class() -> list:
+    # split lowerOrange
+    val_dataset = []
+    rare_val_ratio = 0.2
+    all_lowerOrange = []
+    for i in range(len(all_labels_data_info)):
+        row = all_labels_data_info[i]
+        if row['lowerOrange'] != '':
+            all_lowerOrange.append(i)
+    # shuffle samples
+    np.random.shuffle(all_lowerOrange)
+    num_of_val = math.ceil((len(all_lowerOrange) * rare_val_ratio))
+    val_dataset = val_dataset + all_lowerOrange[:num_of_val]
+    return val_dataset
 
 def generate_csv_file(dataset, filepath):
     with open(filepath, 'w', newline='') as csvfile:
@@ -137,8 +155,8 @@ def split_val_by_group_samples(group_samples, _classes, train_dataset_filepath, 
     generate_csv_file(val_idxes_set, val_dataset_filepath)
 
 if __name__ == "__main__":
-    upper_group_samples = get_upper_group_samples()
-    # split upper
-    print('Split upper dataset start.')
-    split_val_by_group_samples(upper_group_samples, upper_colors, upper_train_dataset_filepath, upper_val_dataset_filepath)
-    print('Split upper dataset end.')
+    lower_group_samples = get_lower_group_samples()
+    # split lower
+    print('Split lower dataset start.')
+    split_val_by_group_samples(lower_group_samples, lower_colors, lower_train_dataset_filepath, lower_val_dataset_filepath)
+    print('Split lower dataset end.')

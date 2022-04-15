@@ -5,17 +5,17 @@ import csv
 
 from mmcls.apis import infer_pedestrian_info, init_model, show_result_pyplot
 config_root = "work_dirs"
-lower_colors_config_name = "my_resnet50_b64_lower_colors_18"
-lower_colors_epoch_name = "epoch_30.pth"
-main_7_props_config_name = "my_resnet50_b64_main_7_props_18"
-main_7_props_epoch_name = "epoch_27.pth"
-upper_colors_config_name = "my_resnet50_b64_upper_colors_18"
-upper_colors_epoch_name = "epoch_26.pth"
+lower_colors_config_name = "my_resnet50_b64_384_lower_colors_19"
+lower_colors_epoch_name = "epoch_64.pth"
+main_7_props_config_name = "my_resnet50_b64_384_main_7_props_19"
+main_7_props_epoch_name = "epoch_77.pth"
+upper_colors_config_name = "my_resnet50_b64_384_upper_colors_19"
+upper_colors_epoch_name = "epoch_60.pth"
 
 # device = "cpu"
 device = "cuda:0"
 data_root = 'data/test22A'
-save_csv_path = 'data/submitPhase2/result_18_best.csv'
+save_csv_path = 'data/submitPhase2/result_19_best.csv'
 
 main_7_props_config = os.path.join(config_root, main_7_props_config_name, main_7_props_config_name+".py")
 main_7_props_checkpoint = os.path.join(config_root, main_7_props_config_name, main_7_props_epoch_name)

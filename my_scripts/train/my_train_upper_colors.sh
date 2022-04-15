@@ -1,1 +1,1 @@
-python tools/train.py configs/resnet/my_resnet50_b64_384_upper_colors_19.py --work-dir work_dirs/my_resnet50_b64_384_upper_colors_19
+python tools/train.py configs/vgg/my_vgg19bn_b16_upper_colors_21.py --work-dir work_dirs/my_vgg19bn_b16_upper_colors_21

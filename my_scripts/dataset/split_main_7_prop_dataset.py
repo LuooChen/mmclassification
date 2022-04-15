@@ -2,15 +2,15 @@ import csv
 import numpy as np
 import math
 
-train_labels_filepath = 'data/labels/train22_relabeled.csv'
+train_labels_filepath = 'data/labels/main_7_props/train22_main_7_props_lables.csv'
 # train_labels_filepath = 'data/labels/train22.csv'
-train_dataset_filepath = 'data/labels/main_7_prop_train.csv'
-val_dataset_filepath = 'data/labels/main_7_prop_val.csv'
+train_dataset_filepath = 'data/labels/main_7_props/main_7_prop_train.csv'
+val_dataset_filepath = 'data/labels/main_7_props/main_7_prop_val.csv'
 
 # train 0.9 val 0.1
 split_val_ratio = 0.1
 # rare samples split ratio
-split_rare_val_ratio = 0.2
+split_rare_val_ratio = 0.1
 # set random seed
 np.random.seed(13)
 
