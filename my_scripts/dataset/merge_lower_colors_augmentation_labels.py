@@ -1,7 +1,7 @@
 import csv
 import numpy as np
 
-train_labels_filepath = 'data/labels/lower_colors/train22_relabeled_rewrite.csv'
+train_labels_filepath = 'data/labels/train22_and_seg_relabeled_rewrite_labels.csv'
 augmentation_labels_filepath = 'data/labels/lower_colors/lower_colors_augmentation.csv'
 labels_header = None
 all_labels_data_info = []

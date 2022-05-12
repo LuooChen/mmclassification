@@ -4,7 +4,7 @@ from pathlib import Path
 import os
 import copy
 
-all_labels = "data/labels/upper_colors/train22_relabeled_rewrite.csv"
+all_labels = "data/labels/train22_and_seg_relabeled_rewrite_labels.csv"
 src_image_path = "data/train22/"
 upper_colors_augmentation_image_path = "data/train22/upper_colors_augmentation/"
 upper_colors_augmentation_image_prefix = "upper_colors_augmentation/"
@@ -13,10 +13,10 @@ upper_colors_augmentation_labels = "data/labels/upper_colors/upper_colors_augmen
 Path(upper_colors_augmentation_image_path).mkdir(parents=True, exist_ok=True)
 allow_props = ['upperOrange', 'upperPurple', 'upperBrown', 'upperGreen']
 rotation_angles = {
-    'upperOrange': [15],
-    'upperPurple': [],
-    'upperBrown': [],
-    'upperGreen': []
+    'upperOrange': [5, 10, 15],
+    'upperPurple': [10],
+    'upperBrown': [10],
+    'upperGreen': [10]
 }
 allow_augmentation_data_info = {}
 for _prop in allow_props:
@@ -102,4 +102,4 @@ if __name__ == "__main__":
             all_augmentation_data_info = all_augmentation_data_info + augmentation_img_infos
     # write labels
     generate_csv_file(all_augmentation_data_info, upper_colors_augmentation_labels)
-    print("rewrite successfully.")
+    print("augmentation successfully.")

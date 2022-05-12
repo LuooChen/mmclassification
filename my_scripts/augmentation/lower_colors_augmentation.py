@@ -4,7 +4,7 @@ from pathlib import Path
 import os
 import copy
 
-all_labels = "data/labels/lower_colors/train22_relabeled_rewrite.csv"
+all_labels = "data/labels/train22_and_seg_relabeled_rewrite_labels.csv"
 src_image_path = "data/train22/"
 lower_colors_augmentation_image_path = "data/train22/lower_colors_augmentation/"
 lower_colors_augmentation_image_prefix = "lower_colors_augmentation/"
@@ -105,4 +105,4 @@ if __name__ == "__main__":
             all_augmentation_data_info = all_augmentation_data_info + augmentation_img_infos
     # write labels
     generate_csv_file(all_augmentation_data_info, lower_colors_augmentation_labels)
-    print("rewrite successfully.")
+    print("augmentation successfully.")

@@ -6,7 +6,7 @@ import copy
 import numpy as np
 import random
 
-all_labels = "data/labels/main_7_props/train22_relabeled_rewrite.csv"
+all_labels = "data/labels/train22_and_seg_relabeled_rewrite_labels.csv"
 src_image_path = "data/train22/"
 main_7_props_augmentation_image_path = "data/train22/main_7_props_augmentation/"
 main_7_props_augmentation_image_prefix = "main_7_props_augmentation/"

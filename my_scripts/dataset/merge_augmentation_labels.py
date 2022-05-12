@@ -1,11 +1,11 @@
 import csv
 import numpy as np
 
-train_labels_filepath = 'data/labels/train22_and_seg_relabeled_rewrite_labels.csv'
-augmentation_labels_filepath = 'data/labels/main_7_props/main_7_props_augmentation.csv'
+train_labels_filepath = 'data/labels/train22_relabeled_rewrite.csv'
+augmentation_labels_filepath = 'data/labels/segmentation_labels.csv'
 labels_header = None
 all_labels_data_info = []
-merge_labels = "data/labels/main_7_props/train22_main_7_props_lables.csv"
+merge_labels = "data/labels/train22_and_seg_relabeled_rewrite_labels.csv"
 # read
 with open(train_labels_filepath) as f:
     reader = csv.DictReader(f)
